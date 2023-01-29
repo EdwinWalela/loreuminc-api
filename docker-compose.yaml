@@ -2,8 +2,6 @@ version: '3.8'
 services:
   pgdb:
     image: postgres:latest
-    ports:
-      - "5432:5432"
     volumes:
       - /pgdata/loreum-api:/var/lib/postgresql/data/
     environment:
@@ -32,7 +30,7 @@ services:
     depends_on:
       - pgdb
     ports:
-      - 3000:3000
+      - 3003:3000
     environment:
       - PG_USER=${PG_USER}
       - PG_PASSWORD=${PG_PASSWORD}
