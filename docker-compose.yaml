@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  pgdb:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - /pgdata/loreum-api:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DB}
+    networks:
+      - loreum-api
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: swagger-docs-loreum-api
+    expose:
+      - 8080
+    ports:
+      - 7050:8080
+    environment:
+      SWAGGER_JSON: /docs.yaml
+    volumes:
+      - ./api/docs/api.yaml:/docs.yaml
+    networks:
+      - loreum-api
+  api:
+    build: ./api
+    container_name: loreum-api
+    restart:  always
+    depends_on:
+      - pgdb
+    ports:
+      - 3000:3000
+    environment:
+      - PG_USER=${PG_USER}
+      - PG_PASSWORD=${PG_PASSWORD}
+      - PG_DB=${PG_DB}
+      - PG_HOST=${PG_DOCKER_HOST}
+    networks:
+      - loreum-api
+networks:
+  loreum-api:
+    driver: bridge
