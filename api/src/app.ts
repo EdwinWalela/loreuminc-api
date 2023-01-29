@@ -5,6 +5,7 @@ import { exit } from 'process';
 import db from './config/db';
 
 import authRoutes from './routes/auth'
+import userRoutes from './routes/users'
 
 const app: Express = express();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/auth',authRoutes);
+app.use('/api/v1/users',userRoutes);
 
 (async () => {
 	try {

@@ -4,7 +4,7 @@ import service from '../services/auth';
 
 const registerUser = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
-  const user = new User(email, password);
+  const user = new User(email,'','','', password);
   let id:number;
 
   if (!email || !password) {
