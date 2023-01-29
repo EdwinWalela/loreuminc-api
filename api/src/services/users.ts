@@ -5,6 +5,11 @@ const getAllUsers = async():Promise<User[]> =>{
   return await repository.getAllUsers()
 }
 
+const getUserById = async(id:number):Promise<User>=>{
+  return await repository.getUserById(id);
+}
+
 export default {
-  getAllUsers
+  getAllUsers,
+  getUserById
 }

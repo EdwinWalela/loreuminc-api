@@ -4,6 +4,7 @@ import User from '../models/User'
 const createUserQuery = `INSERT INTO "User"(email, password) VALUES ($1, $2) RETURNING id;`
 const getUserByEmailQuery = `SELECT * FROM "User" WHERE email = $1;`
 const getAllUsersQuery = `SELECT email,name,bio,occupation from "User";`
+const getUserByIdQuery = `SELECT email,name,bio,occupation from "User" WHERE id = $1; `
 
 const createUser = async (user:User):Promise<number>=>{
   let res;
@@ -31,6 +32,22 @@ const getAllUsers = async():Promise<User[]>=>{
   }
   return users
 }
+const getUserById = async(id:number):Promise<User>=>{
+  let res;
+
+  try{
+    res= await db.query(getUserByIdQuery,[id]);
+  }catch(error:any){
+    throw new Error(error.message)
+  }
+  if(res.rowCount == 0){
+    throw new Error('User not found')
+  }
+  let user = new User(res.rows[0].email,res.rows[0].name,res.rows[0].occupation,res.rows[0].bio,'',res.rows[0].id);
+  delete user.password;
+  return user;
+}
+
 
 const getUserByEmail = async (email:string):Promise<User>=>{
   let res;
@@ -51,4 +68,4 @@ const getUserByEmail = async (email:string):Promise<User>=>{
     res.rows[0]?.id)
 }
 
-export default {createUser,getUserByEmail,getAllUsers}
+export default {createUser,getUserByEmail,getAllUsers,getUserById}
