@@ -1,5 +1,5 @@
 import User from '../models/User';
-import repository from '../../src/repositories/user';
+import repository from '../repositories/user';
 
 const getAllUsers = async():Promise<User[]> =>{
   return await repository.getAllUsers()

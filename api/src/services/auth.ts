@@ -1,5 +1,5 @@
 import User from '../models/User';
-import repository from '../../src/repositories/user';
+import repository from '../repositories/user';
 import generateToken from '../util/generateToken';
 
 const createUser = async (user:User):Promise<number>=>{
